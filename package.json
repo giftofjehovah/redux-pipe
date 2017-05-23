@@ -1,0 +1,9 @@
+{
+  "name": "redux-pipe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "immutable": "4.0.0-rc.2"
+  }
+}
