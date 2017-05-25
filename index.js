@@ -9,6 +9,12 @@ const pipe = (arrayOfMutators, state) => {
     : reduceState(arrayOfMutators, state)
 }
 
+const branchIf = (predicate, runIfTrue, runIfFalse) => state => {
+  if (runIfFalse) return predicate(state) ? runIfTrue(state) : runIfFalse(state)
+  return predicate(state) ? runIfTrue(state) : state
+}
+
 module.exports = {
-  pipe
+  pipe,
+  branchIf
 }
