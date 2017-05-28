@@ -35,5 +35,6 @@ const selectorPipe = (reducer, state, action, globalMutators = []) => {
 module.exports = {
   pipe,
   branchIf,
-  selector
+  selector,
+  selectorPipe
 }
