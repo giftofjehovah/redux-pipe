@@ -20,15 +20,12 @@ const branchIf = (predicate, runIfTrue, runIfFalse) => state => {
   return predicate(state) ? runIfTrue(state) : state
 }
 
-const selector = (reducer, state, action, globalMutators = []) => {
-  return reducer[action.type]
-    ? [...reducer[action.type](action), ...globalMutators]
-    : reducer.DEFAULT
-}
+const selector = (reducer, action) =>
+  reducer[action.type] ? reducer[action.type]() : reducer.DEFAULT
 
 const selectorPipe = (reducer, state, action, globalMutators = []) => {
   return reducer[action.type]
-    ? pipe([...reducer[action.type](action), ...globalMutators])
+    ? pipe([...reducer[action.type](action), ...globalMutators], state)
     : reducer.DEFAULT
 }
 
