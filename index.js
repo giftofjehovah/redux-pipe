@@ -29,6 +29,11 @@ const selectorPipe = (reducer, state, action, globalMutators = []) => {
     : reducer.DEFAULT
 }
 
+const createGroupMutator = (arrayOfMutators, action) => state =>
+  arrayOfMutators
+    .map(mutator => mutator(action))
+    .reduce((state, mutator) => mutator(state), state)
+
 module.exports = {
   pipe,
   branchIf,
