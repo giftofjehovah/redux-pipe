@@ -2,7 +2,7 @@ const {
   isFirstParamArray,
   reduceState,
   areAllFunctions
-} = require('../helpers')
+} = require('../src/helpers')
 
 describe('isFirstParamArray function', () => {
   it('will return an error if param is an object', () => {
