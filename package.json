@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "script": {
+  "scripts": {
     "test": "jest"
   },
   "dependencies": {
-    "immutable": "4.0.0-rc.2",
+    "immutable": "4.0.0-rc.2"
+  },
+  "devDependencies": {
     "jest": "^20.0.4"
   }
 }
