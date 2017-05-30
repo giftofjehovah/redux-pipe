@@ -24,12 +24,12 @@ const branchIf = (predicate, runIfTrue, runIfFalse) => state => {
 }
 
 const selector = (reducer, action) =>
-  reducer[action.type] ? reducer[action.type]() : reducer.DEFAULT
+  reducer[action.type] ? reducer[action.type]() : reducer.DEFAULT()
 
 const selectorPipe = (reducer, state, action, globalMutators = []) => {
   return reducer[action.type]
-    ? pipe([...reducer[action.type](action), ...globalMutators], state)
-    : reducer.DEFAULT
+    ? pipe([...reducer[action.type](), ...globalMutators], state)
+    : reducer.DEFAULT()
 }
 
 const createGroupMutator = (arrayOfMutators, action) => state =>

@@ -25,34 +25,62 @@ describe('branchIf function', () => {
     )
   })
   describe('with runIfTrue and runIfFalse functions', () => {
+    const runIfTrue = () => 1
+    const runIfFalse = () => 2
+    const state = 0
     it('will call the runIfTrue function if predicate return true', () => {
-      const runIfTrue = () => 1
-      const runIfFalse = () => 2
       const predicate = () => true
-      const state = 0
       expect(branchIf(predicate, runIfTrue, runIfFalse)(0)).toBe(1)
     })
     it('will call the runIfFalse function if predicate return false', () => {
-      const runIfTrue = () => 1
-      const runIfFalse = () => 2
       const predicate = () => false
-      const state = 0
       expect(branchIf(predicate, runIfTrue, runIfFalse)(0)).toBe(2)
     })
   })
 
   describe('with only runIfTrue function', () => {
+    const runIfTrue = () => 1
+    const state = 0
     it('will call the runIfTrue function if predicate return true', () => {
-      const runIfTrue = () => 1
       const predicate = () => true
-      const state = 0
       expect(branchIf(predicate, runIfTrue)(0)).toBe(1)
     })
     it('will return state if predicate return false', () => {
-      const runIfTrue = () => 1
       const predicate = () => false
-      const state = 0
       expect(branchIf(predicate, runIfTrue)(0)).toBe(0)
     })
+  })
+})
+
+describe('selectorPipe function', () => {
+  const state = 0
+  const addOne = action => state => state + 1
+  const addTwo = action => state => state + 2
+  const addThree = action => state => state + 3
+  const addFour = action => state => state + 4
+
+  it('will return a new state that is applied with mutations', () => {
+    const action = { type: 'ADD' }
+    const reducer = {
+      ADD: () => [addOne(action), addTwo(action), addThree(action)],
+      DEFAULT: () => state
+    }
+    expect(selectorPipe(reducer, state, action)).toBe(6)
+  })
+  it('will return a default state if action type does not match any key', () => {
+    const action = { type: 'TIMES' }
+    const reducer = {
+      ADD: () => [addOne(action), addTwo(action), addThree(action)],
+      DEFAULT: () => state
+    }
+    expect(selectorPipe(reducer, state, action)).toBe(0)
+  })
+  it('will apply globalMutators to the selector mutations', () => {
+    const action = { type: 'ADD' }
+    const reducer = {
+      ADD: () => [addOne(action), addTwo(action), addThree(action)],
+      DEFAULT: () => state
+    }
+    expect(selectorPipe(reducer, state, action, [addFour(action)])).toBe(10)
   })
 })
