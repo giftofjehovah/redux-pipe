@@ -16,6 +16,14 @@ describe('pipe function', () => {
 })
 
 describe('branchIf function', () => {
+  it('will throw an error if any param is not a function', () => {
+    const runIfTrue = () => 1
+    const runIfFalse = () => 2
+    const predicate = true
+    expect(() => branchIf(predicate, runIfTrue, runIfFalse)(0)).toThrow(
+      new Error('All parameters of branchIf must be functions')
+    )
+  })
   describe('with runIfTrue and runIfFalse functions', () => {
     it('will call the runIfTrue function if predicate return true', () => {
       const runIfTrue = () => 1
