@@ -14,3 +14,37 @@ describe('pipe function', () => {
     )
   })
 })
+
+describe('branchIf function', () => {
+  describe('with runIfTrue and runIfFalse functions', () => {
+    it('will call the runIfTrue function if predicate return true', () => {
+      const runIfTrue = () => 1
+      const runIfFalse = () => 2
+      const predicate = () => true
+      const state = 0
+      expect(branchIf(predicate, runIfTrue, runIfFalse)(0)).toBe(1)
+    })
+    it('will call the runIfFalse function if predicate return false', () => {
+      const runIfTrue = () => 1
+      const runIfFalse = () => 2
+      const predicate = () => false
+      const state = 0
+      expect(branchIf(predicate, runIfTrue, runIfFalse)(0)).toBe(2)
+    })
+  })
+
+  describe('with only runIfTrue function', () => {
+    it('will call the runIfTrue function if predicate return true', () => {
+      const runIfTrue = () => 1
+      const predicate = () => true
+      const state = 0
+      expect(branchIf(predicate, runIfTrue)(0)).toBe(1)
+    })
+    it('will return state if predicate return false', () => {
+      const runIfTrue = () => 1
+      const predicate = () => false
+      const state = 0
+      expect(branchIf(predicate, runIfTrue)(0)).toBe(0)
+    })
+  })
+})

@@ -14,7 +14,10 @@ const pipe = (arrayOfMutators, state) => {
 }
 
 const branchIf = (predicate, runIfTrue, runIfFalse) => state => {
-  const errorInAllParams = areAllFunctions([predicate, runIfTrue, runIfFalse])
+  const paramsToCheck = runIfFalse
+    ? [predicate, runIfTrue, runIfFalse]
+    : [predicate, runIfTrue]
+  const errorInAllParams = areAllFunctions(paramsToCheck)
   if (errorInAllParams) throw errorInAllParams
   if (runIfFalse) return predicate(state) ? runIfTrue(state) : runIfFalse(state)
   return predicate(state) ? runIfTrue(state) : state
