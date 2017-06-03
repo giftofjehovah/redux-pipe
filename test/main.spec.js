@@ -1,4 +1,4 @@
-const { pipe, branchIf, selector, selectorPipe } = require('../src/index')
+import { pipe, branchIf, selector, selectorPipe } from '../src/index'
 
 describe('pipe function', () => {
   it('will return a new state that is applied with mutations', () => {

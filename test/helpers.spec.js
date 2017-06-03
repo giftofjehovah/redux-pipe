@@ -1,8 +1,4 @@
-const {
-  isFirstParamArray,
-  reduceState,
-  areAllFunctions
-} = require('../src/helpers')
+import { isFirstParamArray, reduceState, areAllFunctions } from '../src/helpers'
 
 describe('isFirstParamArray function', () => {
   it('will return an error if param is an object', () => {
