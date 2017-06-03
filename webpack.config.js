@@ -5,7 +5,9 @@ const config = {
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.js'
+    filename: 'index.js',
+    library: 'redux-pipe',
+    libraryTarget: 'umd'
   },
   module: {
     rules: [

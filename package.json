@@ -1,9 +1,9 @@
 {
   "name": "redux-pipe",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "src/index.js",
   "license": "MIT",
-  "files": ["src"],
+  "files": ["dist/index.js"],
   "scripts": {
     "test": "jest",
     "build": "webpack --progress -p"
