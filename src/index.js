@@ -10,10 +10,11 @@ export const pipe = (arrayOfMutators, state) => {
 }
 
 export const branchIf = (predicate, returnIfTrue, returnIfFalse) => state => {
-  const runIfTrue = Array.isArray(returnIfTrue) ? pipe(returnIfTrue, state) : returnIfTrue(state)
-  const runIfFalse = returnIfFalse && (Array.isArray(returnIfFalse) ? pipe(returnIfFalse, state) : returnIfFalse(state))
-  if (returnIfFalse) return predicate(state) ? runIfTrue : runIfFalse
-  return predicate(state) ? runIfTrue : state
+  const runIfTrue = () => (Array.isArray(returnIfTrue) ? pipe(returnIfTrue, state) : returnIfTrue(state))
+  const runIfFalse = () =>
+    returnIfFalse && (Array.isArray(returnIfFalse) ? pipe(returnIfFalse, state) : returnIfFalse(state))
+  if (returnIfFalse) return predicate(state) ? runIfTrue() : runIfFalse()
+  return predicate(state) ? runIfTrue() : state
 }
 
 export const selector = (reducer, action) => (reducer[action.type] ? reducer[action.type](action) : reducer.DEFAULT())
