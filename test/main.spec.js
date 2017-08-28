@@ -9,45 +9,35 @@ describe('pipe function', () => {
     expect(pipe([addOne, addTwo, addThree], state)).toBe(6)
   })
   it('will throw an error if firstParam is not array', () => {
-    expect(() => pipe(1)).toThrow(
-      new Error('First parameter of pipe must be an array')
-    )
+    expect(() => pipe(1)).toThrow(new Error('First parameter of pipe must be an array'))
   })
 })
 
 describe('branchIf function', () => {
-  it('will throw an error if any param is not a function', () => {
-    const runIfTrue = () => 1
-    const runIfFalse = () => 2
-    const predicate = true
-    expect(() => branchIf(predicate, runIfTrue, runIfFalse)(0)).toThrow(
-      new Error('All parameters of branchIf must be functions')
-    )
-  })
   describe('with runIfTrue and runIfFalse functions', () => {
-    const runIfTrue = () => 1
-    const runIfFalse = () => 2
+    const returnIfTrue = () => 1
+    const returnIfFalse = () => 2
     const state = 0
-    it('will call the runIfTrue function if predicate return true', () => {
+    it('will return the returnIfTrue function if predicate return true', () => {
       const predicate = () => true
-      expect(branchIf(predicate, runIfTrue, runIfFalse)(0)).toBe(1)
+      expect(branchIf(predicate, returnIfTrue, returnIfFalse)(state)).toBe(returnIfTrue)
     })
-    it('will call the runIfFalse function if predicate return false', () => {
+    it('will return the returnIfFalse function if predicate return false', () => {
       const predicate = () => false
-      expect(branchIf(predicate, runIfTrue, runIfFalse)(0)).toBe(2)
+      expect(branchIf(predicate, returnIfTrue, returnIfFalse)(state)).toBe(returnIfFalse)
     })
   })
 
   describe('with only runIfTrue function', () => {
-    const runIfTrue = () => 1
+    const returnIfTrue = () => 1
     const state = 0
-    it('will call the runIfTrue function if predicate return true', () => {
+    it('will return the returnIfTrue function if predicate return true', () => {
       const predicate = () => true
-      expect(branchIf(predicate, runIfTrue)(0)).toBe(1)
+      expect(branchIf(predicate, returnIfTrue)(state)).toBe(returnIfTrue)
     })
     it('will return state if predicate return false', () => {
       const predicate = () => false
-      expect(branchIf(predicate, runIfTrue)(0)).toBe(0)
+      expect(branchIf(predicate, returnIfTrue)(state)).toBe(state)
     })
   })
 })
