@@ -20,11 +20,11 @@ describe('branchIf function', () => {
     const state = 0
     it('will return the returnIfTrue function if predicate return true', () => {
       const predicate = () => true
-      expect(branchIf(predicate, returnIfTrue, returnIfFalse)(state)).toBe(returnIfTrue)
+      expect(branchIf(predicate, returnIfTrue, returnIfFalse)(state)).toBe(1)
     })
     it('will return the returnIfFalse function if predicate return false', () => {
       const predicate = () => false
-      expect(branchIf(predicate, returnIfTrue, returnIfFalse)(state)).toBe(returnIfFalse)
+      expect(branchIf(predicate, returnIfTrue, returnIfFalse)(state)).toBe(2)
     })
   })
 
@@ -33,11 +33,27 @@ describe('branchIf function', () => {
     const state = 0
     it('will return the returnIfTrue function if predicate return true', () => {
       const predicate = () => true
-      expect(branchIf(predicate, returnIfTrue)(state)).toBe(returnIfTrue)
+      expect(branchIf(predicate, returnIfTrue)(state)).toBe(1)
     })
     it('will return state if predicate return false', () => {
       const predicate = () => false
-      expect(branchIf(predicate, returnIfTrue)(state)).toBe(state)
+      expect(branchIf(predicate, returnIfTrue)(state)).toBe(0)
+    })
+  })
+
+  describe('is able to handle array of mutators', () => {
+    const addOne = state => state + 1
+    const addTwo = state => state + 2
+    const minusOne = state => state - 1
+    const minusTwo = state => state - 2
+    const state = 0
+    it('will return the 3 value if predicate return true', () => {
+      const predicate = () => true
+      expect(branchIf(predicate, [addOne, addTwo], [minusOne, minusTwo])(state)).toBe(3)
+    })
+    it('will return the -3 value if predicate return true', () => {
+      const predicate = () => false
+      expect(branchIf(predicate, [addOne, addTwo], [minusOne, minusTwo])(state)).toBe(-3)
     })
   })
 })
