@@ -15,7 +15,7 @@ yarn add redux-pipe
 
 
 ### `pipe()`
-The pipe function take in an array of functions called **mutators** and the current state to create the next state.
+The `pipe` function take in an array of functions called **mutators** and the current state to create the next state.
 
 ```js
 pipe(mutators: Array<Function>, currentState): nextState
@@ -26,7 +26,7 @@ Mutator are functions that take in a redux action that returns another function 
 const stopLoader = () => state => ({...state, isLoading: false})
 const setData = action => state => ({...state, data: action.payload.data})
 ```
-This is how we can use them in our reducer. The following example is how you can set a loading spinner to false and set the data to the state with one action.
+This is how we can use them in our reducer. The following example is how you can stop loading spinner and set the data to the state with one action.
 
 ```js
 //reducer
@@ -39,4 +39,34 @@ export default function rootReducer (state, action) {
   }
 }
 ```
+## Additonal helper functions
+### `branchIf()`
+The `branchIf` function take in a predicate as its first parameter. 
+It will return the mutators in second parameter if the predicate returns true.
+It will return the mutators in third parameter if the predicate returns false.
+```js
+branchIf(predicate: Function, trueMutator: Function | trueMutators:Array<Function>, falseMutator: Function | falseMutators:Array<Function>)
+```
+This is how we can use them in our reducer. The following example is how you can stop loading a spinner and use the mutator `setToy` or `setMakeup` according to what our predicate returns.
+```js
+// predicate
+const isMale = action => state => action.payload.gender === 'M'
 
+// mutators
+const stopLoader = () => state => ({...state, isLoading: false})
+const setToy = action => state => ({...state, toy: action.payload.item})
+const setMakeup = action => state => ({...state, makeup: action.payload.item})
+
+// reducer
+import {pipe, branchIf} from 'redux-pipe'
+
+export default function rootReducer (state, action) {
+  switch (action.type) {
+    case 'SET_ITEM':
+      return pipe([
+        stopLoader(),
+        branchIf(isMale(action), setToy(action), setMakeup(action))
+      ], state)
+  }
+}
+```
