@@ -20,7 +20,7 @@ The `pipe` function take in an array of functions called **mutators** and the cu
 ```js
 pipe(mutators: Array<Function>, currentState): nextState
 ```
-Mutator are functions that take in a redux action that returns another function that accept the state as its parameter. The last function will compute the next state and return it for the next mutator.
+Mutators are functions that take in a redux action that returns another function that accept the state as its parameter. The last function will compute the next state and return it for the next mutator.
 ```js
 // mutators
 const stopLoader = () => state => ({...state, isLoading: false})
@@ -34,7 +34,7 @@ import {pipe} from 'redux-pipe'
 
 export default function rootReducer (state, action) {
   switch (action.type) {
-  	case 'GET_DATA_SUCCESS':
+    case 'GET_DATA_SUCCESS':
       return pipe([stopLoading(), setData(action)], state)
   }
 }
